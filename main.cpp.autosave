@@ -3,23 +3,15 @@
 
 #include <QDebug>
 
-#include <QSslSocket>
-#include <QList>
 
 
-#include "server.h"
+
 #define SMTP 465
 #include "smtp.h"
 
 
 static const QString ya = "smtp.yandex.ru";
 
-
-//Server ser;
-
-
-//QString("Arloson1@yandex.com")
-//QString("cthutq161")
 
 
 
