@@ -15,7 +15,7 @@ QString ya = "smtp.yandex.ru";
 
 
 
-Server ser;
+//Server ser;
 
 int main(int argc, char *argv[])
 {

@@ -3,7 +3,7 @@
 
 #include <QObject>
 
-
+class QFile;
 
 class Server;
 
@@ -35,6 +35,7 @@ private:
     QString mail_to;
     QByteArray log ;/*= '\0'+ QString("Arloson1@yandex.com").toUtf8()+'\0'+ QString("cthutq161").toUtf8();*/
 
+    QFile* f;
 
 
 };
