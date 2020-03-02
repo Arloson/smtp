@@ -17,7 +17,7 @@ public:
     void login(QString mail, QString passwd);
     void mail_from(QString mail);
     void rcpt_to(QString mail);
-    void data(QString);
+    void data(QByteArray);
     void quit();
 signals:
 
@@ -25,15 +25,17 @@ signals:
 private:
     Server* s;
     const QString rn = "\r\n";
+    const QString auth = "AUTH PLAIN ";
+    const QString to = "RCPT TO: ";
+    const QString from = "MAIL FROM:";
+    const QString data_ = "DATA\r\n";
+    const QString message = "Subject: ";
+
     QString mail;
-
-
-
+    QString mail_to;
     QByteArray log ;/*= '\0'+ QString("Arloson1@yandex.com").toUtf8()+'\0'+ QString("cthutq161").toUtf8();*/
-    QString to = "RCPT TO: ";
-    QString from = "MAIL FROM:";
-    QString data_ = "DATA\r\n";
-    QString message = "Subject: ";
+
+
 
 };
 

@@ -27,8 +27,8 @@ public:
     virtual ~Server();
     void check(QByteArray);
     void init(QString host, int port);
-
-    void write(QString message);
+    int write(QString);
+    void write(QByteArray message);
 
 signals:
 

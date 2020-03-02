@@ -11,42 +11,65 @@ Smtp::Smtp(QObject *parent) : QObject(parent), s(new Server(this))
 void Smtp::connect_host(QString host, int port)
 {
      s->init(host, port);
+     s->write(QByteArray("HELO Arloson1@yandex.com"));
+
+
 
 }
 
 void Smtp::login(QString mail, QString passwd)
 {
-    mail.append(mail);
-
-    s->write("HELO "+mail+rn);
+    this->mail = mail;
 
 
-    log = '\0'+ mail.toUtf8()+
-            '\0'+ passwd.toUtf8();
-    s->write("AUTH PLAIN "+ log.toBase64()+rn);
-
+    QByteArray login = '\0'+ QString("Arloson1@yandex.com").toUtf8()+
+            '\0'+ QString("cthutq161").toUtf8();
+    s->write(QByteArray("AUTH PLAIN " + login.toBase64()+"\r\n"));
+    s->write(QByteArray("AUTH PLAIN " + login.toBase64()+"\r\n"));
 }
 
 void Smtp::mail_from(QString mail)
 {
-      s->write(from+mail+rn);
+    QByteArray raw;
+    raw.append(from);
+    raw.append(mail.toUtf8());
+    raw.append(rn);
+    s->write(raw);
 }
 
 void Smtp::rcpt_to(QString mail)
 {
-    s->write(to+mail+rn);
+    mail_to = mail;
+    QByteArray raw(QString(to+mail+rn).toUtf8());
+    s->write(raw);
 }
 
 
-void Smtp::data(QString mes)
+void Smtp::data(QByteArray mes)
 {
     qDebug()<<"Mail is "<< mail;
-    s->write(data_);
-    s->write("From:"+mail+rn+message+mes+rn);
-    s->write(".\r\n");
+
+    QByteArray m;
+    m.append(data_);
+    m.append("From:"+mail+rn);
+    m.append("To: "+mail_to+rn);
+    //заголовок
+    m.append(message + "Заголовок нужно что то придумать\r\n");
+    m.append(rn+rn);
+    //тело
+    m.append(mes);
+    m.append(rn);
+
+    //конец
+    m.append(rn+"."+rn);
+
+    s->write(m);
+
+
 }
 
 void Smtp::quit()
 {
-    s->write("QUIT"+rn);
+    QByteArray raw(QString("QUIT"+rn).toUtf8());
+    s->write(raw);
 }

@@ -18,9 +18,8 @@ Server::Server(QObject *parent) :
     connect(socket, &QSslSocket::connected, [=](){qDebug()<<"connected";} );
     connect(socket, &QSslSocket::readyRead,
             [=](){
-        qDebug()<<"readyread: "<<socket->bytesAvailable();
-        check(socket->readAll());
 
+               check(socket->readAll());
     });
 
 
@@ -57,17 +56,24 @@ void Server::check(QByteArray c)
 }
 void Server::init(QString host, int port){
     socket->connectToHostEncrypted(host, port);
+    if(!socket->waitForConnected()){
+       qDebug()<<"don't connected";
+       this->~Server();
+    }
+}
+
+int Server::write(QString msg)
+{
+    socket->write(msg.toStdString().c_str());
+
+    return 0;
 }
 
 
 
-void Server::write(QString message)
+void Server::write(QByteArray message)
 {
-
-    socket->write(message.toStdString().c_str());
-
-    if(socket->waitForBytesWritten())
-                qDebug("message send");
+    socket->write(message);
 
 }
 
