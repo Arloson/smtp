@@ -1,9 +1,11 @@
 #include "smtp.h"
 #include "server.h"
 #include <QDebug>
+#include "mime.h"
+
 #include <QFile>
 
-Smtp::Smtp(QObject *parent) : QObject(parent), s(new Server(this)), f(new QFile(this))
+Smtp::Smtp(QObject *parent) : QObject(parent), s(new Server(this))
 {
 
 }
@@ -49,26 +51,46 @@ void Smtp::rcpt_to(QString mail)
 void Smtp::data(QByteArray mes)
 {
     qDebug()<<"Mail is "<< mail;
-    QFile fl("E:\\tmp\\mail\\m.cpp");
-    fl.open(QFile::ReadOnly);
-    QByteArray file = fl.readAll();
+
+    QFile f("E:\\tmp\\mail\\z.zip");
+    f.open(QFile::ReadOnly);
+    int siz = f.size();
 
 
-    QByteArray m;
-    m.append(data_);
-    m.append("From:"+mail+rn);
-    m.append("To: "+mail_to+rn);
-    //заголовок
-    m.append(message + mes+"\r\n");
-    m.append(rn+rn);
-    //тело
-    m.append(file);
-    m.append(rn);
+    s->write(data_.toUtf8());
+    s->write("From:"+mail+rn);
+    s->write("To: "+mail_to+rn);
+    s->write(message+"Test"+rn);
 
-    //конец
-    m.append(rn+"."+rn);
+    s->write("MIME-Version: 1.0"+rn);
+    //s->write("Content-Type:image/git"+rn);
+    s->write("Content-Type:application/zip;attachment;filename=gif.zip"+rn);
+    s->write("Content-Transfer-Encoding:Base64"+rn);
+   // s->write("Content-Disposition:attachment; filename=gif.zip"+rn);
 
-    s->write(m);
+
+
+    s->write(rn+rn);
+    s->write(f.readAll().toBase64());
+
+    s->write(rn+"."+rn);
+
+    //    QByteArray m;
+//    m.append(data_);
+//    m.append("From:"+mail+rn);
+//    m.append("To: "+mail_to+rn);
+//
+
+//    m.append(message + mes+"\r\n");
+//    m.append(rn+rn);
+   //
+   // m.append(mes);
+  //  m.append(rn);
+
+
+  //  m.append(rn+"."+rn);
+
+  //  s->write(m);
 
 
 }

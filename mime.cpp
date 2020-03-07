@@ -1,6 +1,16 @@
-#include "mami.h"
+#include "mime.h"
 
-Mami::Mami(QObject *parent) : QObject(parent)
+Mime::Mime(QObject *parent) : QObject(parent)
 {
 
+}
+
+QString Mime::getMami()
+{
+    return QString(mami_version+type +"filename="+ nameFile +"\r\n");
+}
+
+void Mime::setFileName(const QString &name)
+{
+    nameFile = name;
 }

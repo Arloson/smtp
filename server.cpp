@@ -13,6 +13,8 @@
 Server::Server(QObject *parent) :
     QObject(parent), socket(new QSslSocket(this))
 {
+
+
     connect(socket, QOverload<const QList<QSslError> &>::of(&QSslSocket::sslErrors)
             , this, &Server::error);
     connect(socket, &QSslSocket::connected, [=](){qDebug()<<"connected";} );
@@ -47,7 +49,7 @@ void Server::check(QByteArray c)
     qDebug(c);
     QByteArray responseText(c.trimmed());
     int responseCode = responseText.left(3).toInt();
-    if(responseCode == code[4]){
+    if(responseCode == 221){
         this->~Server();
     }
 
@@ -56,6 +58,7 @@ void Server::check(QByteArray c)
 }
 void Server::init(QString host, int port){
     socket->connectToHostEncrypted(host, port);
+
     if(!socket->waitForConnected()){
        qDebug()<<"don't connected";
        this->~Server();
@@ -65,7 +68,7 @@ void Server::init(QString host, int port){
 int Server::write(QString msg)
 {
     socket->write(msg.toStdString().c_str());
-
+    socket->waitForBytesWritten();
     return 0;
 }
 
@@ -74,7 +77,7 @@ int Server::write(QString msg)
 void Server::write(QByteArray message)
 {
     socket->write(message);
-
+    socket->waitForBytesWritten();
 }
 
 void Server::error(const QList<QSslError> &errors)

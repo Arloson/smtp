@@ -10,6 +10,8 @@
 #include "smtp.h"
 #include "server.h"
 
+
+
 QString ya = "smtp.yandex.ru";
 
 
@@ -34,27 +36,6 @@ int main(int argc, char *argv[])
     //QUIT
     smtp.quit();
 
-  /*  ser.init(ya, SMTP);
-
-  ser.write(QByteArray("HELO Arloson1@yandex.com\r\n"));
-
-    QByteArray login = '\0'+ QString("Arloson1@yandex.com").toUtf8()+
-            '\0'+ QString("cthutq161").toUtf8();
-
-    ser.write(QByteArray("AUTH PLAIN " + login.toBase64()+"\r\n"));
-
-    ser.write(QByteArray("MAIL FROM: Arloson1@yandex.com\r\n"));
-
-    ser.write(QByteArray("RCPT TO: sergeyantonov3083@gmail.com\r\n"));
-
-    ser.write(QByteArray("DATA\r\n"));
-    ser.write(QByteArray("From:Arloson1@yandex.com\r\n"));
-    ser.write(QByteArray("Subject: second\r\n.\r\n"));
-
-
-    ser.write(QByteArray("QUIT\r\n"));
-
-*/
 
 
     return a.exec();

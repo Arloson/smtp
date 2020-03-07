@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
+        mime.cpp \
         server.cpp \
         smtp.cpp
 
@@ -26,5 +27,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    mime.h \
     server.h \
     smtp.h
