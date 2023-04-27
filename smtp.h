@@ -42,7 +42,7 @@ private:
 
     QString mail;
     QString mail_to;
-    QByteArray log ;/*= '\0'+ QString("Arloson1@yandex.com").toUtf8()+'\0'+ QString("cthutq161").toUtf8();*/
+    QByteArray log ;/*= '\0'+ QString("Arloson1@yandex.com").toUtf8()+'\0'+ QString("***").toUtf8();*/
 
 
 
